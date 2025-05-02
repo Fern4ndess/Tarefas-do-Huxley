@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int multiplos(int N, int A, int B) {
+    if (A <= N && N <= B) {
+        
+    }
+    if (N < A && N > B) {
+        
+    }
+}
+
+int main() {
+    int N, A, B;
+    scanf("%d", &N);
+    scanf("%d", &A);
+    scanf("%d", &B);
+
+    return 0;
+}

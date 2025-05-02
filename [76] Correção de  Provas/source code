@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+int calcular_nota(char gabarito[], char resposta[], int i) {
+    
+    if (i == 10) {
+        return 0;
+    }
+    
+    if (gabarito[i] == resposta[i]){
+        return 1 + calcular_nota(gabarito, resposta, i + 1);
+    }
+    
+    return calcular_nota(gabarito, resposta, i + 1);
+}
+
+void contar_frequencia(int notas[], int tamanho, int frequencia[], int i) {
+    if (i == tamanho) {
+        return;
+    }
+    
+    frequencia[notas[i]]++;
+    
+    contar_frequencia(notas, tamanho, frequencia, i + 1);
+}
+
+int encontrar_nota_mais_frequente(int frequencias[], int maior, int nota_mais_frequente, int i) {
+    
+    if (i == 11) {
+        return nota_mais_frequente;
+    }
+    
+    if (frequencias[i] > maior) {
+        return encontrar_nota_mais_frequente(frequencias, frequencias[i], i, i + 1);
+    }
+    
+    return encontrar_nota_mais_frequente(frequencias, maior, nota_mais_frequente, i + 1);
+}
+
+int main() {
+    char gabarito[11], respostas[11];
+    int aluno, notas[100], total_aprovados = 0, total_alunos = 0, frequencia[11] = {0};
+
+    scanf("%s", gabarito);
+
+    void processar_aluno() {
+        scanf("%d", &aluno);
+
+        if (aluno == 9999) {
+            return;
+        }
+
+        scanf("%s", respostas);
+
+        int nota = calcular_nota(gabarito, respostas, 0);
+        
+        notas[total_alunos] = nota;
+        
+        total_alunos++;
+
+        printf("%d %.1f\n", aluno, (float) nota);
+
+        if (nota >= 6) {
+            total_aprovados++;
+        }
+        
+        processar_aluno();
+    }
+    
+    processar_aluno();
+
+    if (total_alunos > 0) {
+        
+        float percentual_aprovacao = (float) total_aprovados / total_alunos * 100;
+        
+        printf("%.1f%%\n", percentual_aprovacao);
+
+        contar_frequencia(notas, total_alunos, frequencia, 0);
+        
+        int nota_mais_frequente = encontrar_nota_mais_frequente(frequencia, 0, 0, 0);
+        printf("%.1f\n", (float) nota_mais_frequente);
+    }
+
+    return 0;
+}
