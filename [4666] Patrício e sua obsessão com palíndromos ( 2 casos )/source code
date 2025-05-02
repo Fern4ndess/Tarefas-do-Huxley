@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    int N, total = 0;
+    scanf("%d", &N);
+    
+    char palavras[N][50]; // lista de palavras
+    int igual_a_index[N];
+    
+    int index[N];
+    for( int i = 0 ; i < N ; i++ ) {
+        
+        for( int j = 0 ; j < 50 ; j++ ) {
+            scanf("%c", &palavras[i][j]);
+            if( palavras[i][j] == ' ' || palavras[i][j] == '\n' ) {
+                index[i] = j - 1;
+                break;
+            }
+        }
+        igual_a_index[i] = 0; // importante no futuro
+        
+    }
+    
+    char palavras_reversas[N][50];
+    
+    for( int i = 0 ; i < N ; i++ ) {
+        
+        for( int j = 0 , k = index[i] ; j < index[i] ; j++ , k-- ) {
+            
+            palavras_reversas[i][j] = palavras[i][ k ];
+            
+        }
+        
+    }
+    
+    //identificar pal�ndromos
+    int palindromos[N]; // guarda o �ndice dos palindromos
+    for( int i = 0 ; i < N ; i++ ) {
+        
+        for( int j = 0 ; j < index[i] ; j++ ) {
+            
+            if( palavras[i][j] == palavras_reversas[i][j] ) {
+                igual_a_index[i] += 1;
+            }
+            if( igual_a_index[i] == index[i] ) {
+                total += 1;
+                palindromos[i] = i;
+            }
+            
+        }
+        
+    }
+    
+    if( total == 0 ) {
+        printf("Nenhuma palavra palíndroma encontrada\n");
+        return 0;
+    }
+    
+    //printf
+    for( int i = 0 ; i < total ; i++ ) {
+        
+        for( int j = 0 ; j < index[i] - 1 ; j++ ) {
+            
+            printf("%c", palavras[ palindromos[i] ][j]);
+            
+        }
+        printf("\n");
+        
+    }
+    printf("Total: %d\n", total);
+
+    return 0;
+}
